@@ -89,6 +89,7 @@ def get_db_connection():
         raise ConnectionError(f"Failed to connect to the database: {e}")
 
 def create_db_table():
+    connection = None
     try:
         connection = get_db_connection()
         with connection.cursor() as cursor:
@@ -109,7 +110,8 @@ def create_db_table():
         logging.exception("Failed to create or verify the events table")
         raise RuntimeError(f"Table creation failed: {str(e)}")
     finally:
-        connection.close()
+        if connection is not None:
+            connection.close()
 
 def insert_data_into_db(payload):
     """
