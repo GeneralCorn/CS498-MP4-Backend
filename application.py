@@ -120,6 +120,7 @@ def insert_data_into_db(payload):
     NOTE: Our autograder will automatically insert data into the DB automatically keeping in mind the explained SCHEMA, you dont have to insert your own data.
     """
     create_db_table()
+    connection = None
     connection = get_db_connection()
     try:
         with connection.cursor() as cursor:
@@ -136,7 +137,8 @@ def insert_data_into_db(payload):
             ))
         connection.commit()
     finally:
-        connection.close()
+        if connection is not None:
+            connection.close()
 
 #Database Function Stub
 def fetch_data_from_db():
@@ -144,6 +146,7 @@ def fetch_data_from_db():
     Stub for database communication.
     Implement this function to fetch your data from the database.
     """
+    connection = None
     create_db_table()
     connection = get_db_connection()
     try:
@@ -161,7 +164,9 @@ def fetch_data_from_db():
             })
         return events
     finally:
-        connection.close()
+        if connection is not None:
+            connection.close()
+
 
 if __name__ == '__main__':
     application.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
