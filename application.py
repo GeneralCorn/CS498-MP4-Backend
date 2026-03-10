@@ -108,6 +108,8 @@ def create_db_table():
     except Exception as e:
         logging.exception("Failed to create or verify the events table")
         raise RuntimeError(f"Table creation failed: {str(e)}")
+    finally:
+        connection.close()
 
 def insert_data_into_db(payload):
     """
@@ -140,6 +142,7 @@ def fetch_data_from_db():
     Stub for database communication.
     Implement this function to fetch your data from the database.
     """
+    create_db_table()
     connection = get_db_connection()
     try:
         with connection.cursor(pymysql.cursors.DictCursor) as cursor:
