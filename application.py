@@ -121,8 +121,8 @@ def insert_data_into_db(payload):
     """
     create_db_table()
     connection = None
-    connection = get_db_connection()
     try:
+        connection = get_db_connection()
         with connection.cursor() as cursor:
             sql = """
                 INSERT INTO events (title, description, image_url, date, location)
@@ -148,8 +148,8 @@ def fetch_data_from_db():
     """
     connection = None
     create_db_table()
-    connection = get_db_connection()
     try:
+        connection = get_db_connection()
         with connection.cursor(pymysql.cursors.DictCursor) as cursor:
             cursor.execute("SELECT * FROM events ORDER BY date ASC")
             rows = cursor.fetchall()
